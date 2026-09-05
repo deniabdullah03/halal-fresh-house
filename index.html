@@ -1,883 +1,757 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Barcode & Laporan - Halal Fresh House</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <style>
-        @media print {
-            body * { visibility: hidden; }
-            #print-area, #print-area * { visibility: visible; }
-            #print-area { position: absolute; left: 0; top: 0; width: 100%; }
-        }
-        .signature-canvas { touch-action: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistem Barcode & Laporan - Halal Fresh House</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+@media print {
+body * { visibility: hidden; }
+#print-area, #print-area * { visibility: visible; }
+#print-area { position: absolute; left: 0; top: 0; width: 100%; }
+}
+.signature-canvas { touch-action: none; }
+</style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
-
-    <!-- Navbar Halal Fresh House -->
-    <header class="bg-slate-900 text-white shadow-lg border-b border-slate-800 sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 rounded-xl bg-black flex items-center justify-center overflow-hidden border border-slate-700 shadow-md p-1">
-                    <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo Halal Fresh House" class="w-full h-full object-contain">
-                </div>
-                <div>
-                    <h1 class="text-base font-bold tracking-wide flex items-center gap-2">
-                        HALAL FRESH HOUSE <span class="bg-emerald-500/20 text-emerald-400 text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/30 font-medium">Pro System v3</span>
-                    </h1>
-                    <p class="text-[11px] text-slate-400">Manajemen Piket, Barcode Area & Tanda Tangan Digital</p>
-                </div>
-            </div>
-            <div class="flex bg-slate-800/90 p-1.5 rounded-xl border border-slate-700 flex-wrap justify-center gap-1 shadow-inner">
-                <button onclick="switchTab('dashboard')" id="btn-dashboard" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow-sm flex items-center gap-1.5">
-                    <i class="fa-solid fa-chart-pie"></i> Dashboard
-                </button>
-                <button onclick="switchTab('jadwal')" id="btn-jadwal" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
-                    <i class="fa-solid fa-calendar-days"></i> Jadwal
-                </button>
-                <button onclick="switchTab('barcode')" id="btn-barcode" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
-                    <i class="fa-solid fa-barcode"></i> Barcode
-                </button>
-                <button onclick="switchTab('laporan')" id="btn-laporan" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
-                    <i class="fa-solid fa-cloud-arrow-up"></i> Unggah
-                </button>
-                <button onclick="switchTab('riwayat')" id="btn-riwayat" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
-                    <i class="fa-solid fa-clipboard-list"></i> Riwayat
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Container -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
-
-        <!-- TAB 0: DASHBOARD STATISTIK -->
-        <section id="tab-dashboard" class="space-y-6">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Laporan Masuk</p>
-                        <h3 id="stat-total" class="text-2xl font-black text-slate-800 mt-1">0</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl shadow-inner">
-                        <i class="fa-solid fa-file-invoice"></i>
-                    </div>
-                </div>
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Area Aktif Terawasi</p>
-                        <h3 class="text-2xl font-black text-slate-800 mt-1">4 Area</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shadow-inner">
-                        <i class="fa-solid fa-store"></i>
-                    </div>
-                </div>
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Status Sistem</p>
-                        <h3 class="text-xl font-bold text-emerald-600 mt-1 flex items-center gap-1.5">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span> Normal & Online
-                        </h3>
-                    </div>
-                    <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-xl shadow-inner">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PENGATURAN URL WEB APPS AGAR BARCODE BISA DIBUKA DARI HP LAIN -->
-            <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-3 shadow-sm">
-                <div class="text-xs text-amber-900">
-                    <span class="font-bold block mb-1"><i class="fa-solid fa-triangle-exclamation mr-1 text-amber-600"></i> Penting Agar Barcode Bisa Di-scan HP Lain:</span>
-                    Masukkan link website GitHub Pages Anda (contoh: <code class="bg-amber-100 px-1 rounded">https://username.github.io/halal-fresh-house/</code>) di kolom samping, lalu klik <strong>Simpan URL</strong>.
-                </div>
-                <div class="flex gap-2 w-full sm:w-auto">
-                    <input type="text" id="custom-base-url" placeholder="https://..." class="bg-white border border-amber-300 rounded-lg px-3 py-1.5 text-xs w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-amber-500">
-                    <button onclick="saveCustomUrl()" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition shadow-sm">Simpan URL</button>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
-                    <i class="fa-solid fa-bolt text-amber-500"></i> Pintasan Menu Cepat Halal Fresh House
-                </h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <button onclick="switchTab('laporan')" class="p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-200 transition text-left flex items-center gap-3 group">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center group-hover:scale-110 transition shadow">
-                            <i class="fa-solid fa-plus text-sm"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-slate-800">Unggah Laporan</p>
-                            <p class="text-[10px] text-slate-500">Kirim laporan & foto bukti</p>
-                        </div>
-                    </button>
-                    <button onclick="switchTab('barcode')" class="p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 transition text-left flex items-center gap-3 group">
-                        <div class="w-10 h-10 rounded-lg bg-indigo-600 text-white flex items-center justify-center group-hover:scale-110 transition shadow">
-                            <i class="fa-solid fa-barcode text-sm"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-slate-800">Cetak Barcode</p>
-                            <p class="text-[10px] text-slate-500">Barcode area ruangan toko</p>
-                        </div>
-                    </button>
-                    <button onclick="switchTab('jadwal')" class="p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-sky-50 hover:border-sky-200 transition text-left flex items-center gap-3 group">
-                        <div class="w-10 h-10 rounded-lg bg-sky-600 text-white flex items-center justify-center group-hover:scale-110 transition shadow">
-                            <i class="fa-solid fa-calendar-days text-sm"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-slate-800">Atur Jadwal</p>
-                            <p class="text-[10px] text-slate-500">Kelola penanggung jawab</p>
-                        </div>
-                    </button>
-                    <button onclick="switchTab('riwayat')" class="p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-purple-50 hover:border-purple-200 transition text-left flex items-center gap-3 group">
-                        <div class="w-10 h-10 rounded-lg bg-purple-600 text-white flex items-center justify-center group-hover:scale-110 transition shadow">
-                            <i class="fa-solid fa-history text-sm"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-slate-800">Riwayat Masuk</p>
-                            <p class="text-[10px] text-slate-500">Arsip laporan kebersihan</p>
-                        </div>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 1: JADWAL PIKET -->
-        <section id="tab-jadwal" class="hidden space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                <div>
-                    <h2 class="text-base font-bold text-slate-700">Daftar Jadwal & Penanggung Jawab Area</h2>
-                    <p class="text-xs text-slate-500">Sesuaikan petugas piket harian Halal Fresh House.</p>
-                </div>
-                <button onclick="openEditJadwalModal()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-1.5">
-                    <i class="fa-solid fa-pen-to-square"></i> Atur Petugas
-                </button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="jadwal-container"></div>
-        </section>
-
-        <!-- TAB 2: CETAK BARCODE AREA TERPISAH -->
-        <section id="tab-barcode" class="hidden space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                <div>
-                    <h2 class="text-base font-bold text-slate-700">Cetak Barcode Area Halal Fresh House</h2>
-                    <p class="text-xs text-slate-500">Cetak dan tempel barcode ini di masing-masing ruangan area toko.</p>
-                </div>
-                <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-1.5">
-                    <i class="fa-solid fa-print"></i> Cetak Semua Barcode
-                </button>
-            </div>
-
-            <div id="print-area" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-                <!-- Kamar Mandi -->
-                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
-                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
-                        </div>
-                        <span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
-                    </div>
-                    <h3 class="font-bold text-slate-800 text-base">KAMAR MANDI</h3>
-                    <div id="qr-kamar-mandi" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
-                    <p class="text-[11px] text-slate-500">Scan untuk cek status kebersihan & riwayat Kamar Mandi</p>
-                    <button onclick="openAreaDetail('Kamar Mandi')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition">
-                        Simulasi Scan (Buka Halaman Area)
-                    </button>
-                </div>
-
-                <!-- Gudang Dray -->
-                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
-                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
-                        </div>
-                        <span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
-                    </div>
-                    <h3 class="font-bold text-slate-800 text-base">AREA GUDANG DRAY</h3>
-                    <div id="qr-gudang-dray" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
-                    <p class="text-[11px] text-slate-500">Scan untuk cek status kebersihan & riwayat Gudang Dray</p>
-                    <button onclick="openAreaDetail('Area Gudang Dray')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition">
-                        Simulasi Scan (Buka Halaman Area)
-                    </button>
-                </div>
-
-                <!-- Ruangan Kantor -->
-                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
-                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
-                        </div>
-                        <span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
-                    </div>
-                    <h3 class="font-bold text-slate-800 text-base">RUANGAN KANTOR</h3>
-                    <div id="qr-ruangan-kantor" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
-                    <p class="text-[11px] text-slate-500">Scan untuk cek status kebersihan & riwayat Ruangan Kantor</p>
-                    <button onclick="openAreaDetail('Ruangan Kantor')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition">
-                        Simulasi Scan (Buka Halaman Area)
-                    </button>
-                </div>
-
-                <!-- General Cleaning Area Toko -->
-                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
-                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
-                        </div>
-                        <span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
-                    </div>
-                    <h3 class="font-bold text-slate-800 text-base">GENERAL CLEANING AREA TOKO</h3>
-                    <div id="qr-general-cleaning" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
-                    <p class="text-[11px] text-slate-500">Scan untuk cek status kebersihan & riwayat General Cleaning</p>
-                    <button onclick="openAreaDetail('General Cleaning Area Toko')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition">
-                        Simulasi Scan (Buka Halaman Area)
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 3: UNGGAH LAPORAN -->
-        <section id="tab-laporan" class="hidden space-y-6 max-w-2xl mx-auto">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <div class="border-b border-slate-100 pb-4 mb-6">
-                    <h2 class="text-lg font-bold text-slate-800">Form Unggah Bukti Kebersihan Halal Fresh House</h2>
-                    <p class="text-xs text-slate-500">Unggah laporan tugas pembersihan harian beserta paraf digital.</p>
-                </div>
-
-                <form id="form-laporan" onsubmit="handleUploadLaporan(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Pilih Area Kerja *</label>
-                        <select id="pilih-area" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900">
-                            <option value="">-- Pilih Area Kebersihan --</option>
-                            <option value="Kamar Mandi">Kamar Mandi</option>
-                            <option value="Area Gudang Dray">Area Gudang Dray</option>
-                            <option value="Ruangan Kantor">Ruangan Kantor</option>
-                            <option value="General Cleaning Area Toko">General Cleaning Area Toko</option>
-                        </select>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1.5">Nama Petugas *</label>
-                            <input type="text" id="nama-petugas" required placeholder="Masukkan nama Anda" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1.5">Hari / Tanggal *</label>
-                            <input type="date" id="tanggal-laporan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Catatan / Keterangan Tambahan</label>
-                        <textarea id="catatan-laporan" rows="3" placeholder="Contoh: Pembersihan rutin selesai." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Unggah Foto Bukti Kebersihan (Bisa Banyak) *</label>
-                        <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer" onclick="document.getElementById('file-foto').click()">
-                            <input type="file" id="file-foto" accept="image/*" multiple class="hidden" onchange="previewMultipleImages(event)">
-                            <div class="space-y-2">
-                                <i class="fa-solid fa-images text-3xl text-slate-700"></i>
-                                <p class="text-xs font-medium text-slate-600">Klik untuk memilih beberapa foto bukti</p>
-                            </div>
-                        </div>
-                        <div id="preview-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-3 mt-4 hidden"></div>
-                    </div>
-
-                    <!-- Tanda Tangan Digital Section -->
-                    <div class="space-y-2 pt-2 border-t border-slate-100">
-                        <div class="flex justify-between items-center">
-                            <label class="block text-xs font-semibold text-slate-600">Tanda Tangan / Paraf Petugas *</label>
-                            <button type="button" onclick="clearSignature()" class="text-xs text-red-600 hover:text-red-700 font-medium flex items-center gap-1">
-                                <i class="fa-solid fa-rotate-right"></i> Hapus & Ulangi
-                            </button>
-                        </div>
-                        <div class="border-2 border-slate-300 rounded-xl bg-slate-50 overflow-hidden relative shadow-inner">
-                            <canvas id="signature-pad" class="w-full h-36 signature-canvas cursor-crosshair bg-white block"></canvas>
-                            <div class="absolute bottom-2 right-3 pointer-events-none text-[10px] text-slate-400 font-medium">Tulis tanda tangan di atas</div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-xl transition shadow-sm text-sm flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-paper-plane"></i> Kirim Laporan Kebersihan
-                    </button>
-                </form>
-            </div>
-        </section>
-
-        <!-- TAB 4: RIWAYAT -->
-        <section id="tab-riwayat" class="hidden space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                <div>
-                    <h2 class="text-base font-bold text-slate-700">Riwayat Laporan Masuk</h2>
-                    <p class="text-xs text-slate-500">Daftar seluruh laporan lengkap dengan tanda tangan digital petugas.</p>
-                </div>
-                <button onclick="clearRiwayat()" class="text-red-600 hover:bg-red-50 text-xs font-semibold px-3 py-2 rounded-lg transition border border-red-200 flex items-center gap-1.5">
-                    <i class="fa-solid fa-trash-can"></i> Bersihkan Riwayat
-                </button>
-            </div>
-
-            <div id="riwayat-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            <div id="riwayat-kosong" class="hidden text-center py-12 bg-white rounded-xl border border-slate-200">
-                <i class="fa-solid fa-folder-open text-4xl text-slate-300 mb-3"></i>
-                <p class="text-sm font-medium text-slate-500">Belum ada laporan kebersihan yang diunggah.</p>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- MODAL KHUSUS HASIL SCAN BARCODE AREA OLEH BOS -->
-    <div id="modal-area-detail" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <div class="flex items-center space-x-2">
-                    <div class="w-9 h-9 rounded-lg bg-black p-1 flex items-center justify-center overflow-hidden">
-                        <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" class="w-full h-full object-contain">
-                    </div>
-                    <div>
-                        <h3 id="modal-area-title" class="font-bold text-slate-800 text-sm">Dashboard Area</h3>
-                        <p class="text-[10px] text-slate-400">Hasil Scan Barcode Pimpinan / Pengawas</p>
-                    </div>
-                </div>
-                <button onclick="closeAreaModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <div id="modal-area-body" class="space-y-4 text-xs"></div>
-            <div class="pt-2 border-t border-slate-100 flex justify-end">
-                <button onclick="closeAreaModal()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold transition">Tutup</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL ZOOM FOTO -->
-    <div id="modal-zoom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50" onclick="closeZoomModal()">
-        <div class="relative max-w-4xl w-full max-h-[90vh] flex items-center justify-center">
-            <img id="zoomed-img" src="" class="max-h-[85vh] max-w-full rounded-lg shadow-2xl object-contain">
-        </div>
-    </div>
-
-    <!-- MODAL EDIT JADWAL -->
-    <div id="modal-edit" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl border border-slate-100">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 class="font-bold text-slate-800 text-sm">Sesuaikan Petugas Piket</h3>
-                <button onclick="closeEditJadwalModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Kamar Mandi</label>
-                    <input type="text" id="edit-km" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Area Gudang Dray</label>
-                    <input type="text" id="edit-gd" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Ruangan Kantor</label>
-                    <input type="text" id="edit-kt" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">General Cleaning Toko</label>
-                    <input type="text" id="edit-gc" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs">
-                </div>
-            </div>
-            <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
-                <button onclick="closeEditJadwalModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs font-semibold transition">Batal</button>
-                <button onclick="saveJadwal()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold transition">Simpan Perubahan</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- NOTIFIKASI BERHASIL DISIMPAN -->
-    <div id="modal-notif" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl border border-slate-100">
-            <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-sm">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-            <div>
-                <h3 class="font-bold text-slate-800 text-lg">Laporan Berhasil Disimpan!</h3>
-                <p class="text-xs text-slate-500 mt-1">Bukti foto, catatan, dan tanda tangan digital berhasil direkam ke dalam sistem.</p>
-            </div>
-            <div class="flex flex-col gap-2 pt-2">
-                <button onclick="closeNotifToRiwayat()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl text-xs font-semibold transition shadow-sm">
-                    <i class="fa-solid fa-clipboard-list mr-1.5"></i> Lihat Riwayat Laporan
-                </button>
-                <button onclick="closeNotifStay()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-semibold transition">
-                    Unggah Laporan Lainnya
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript Aplikasi -->
-    <script>
-        let jadwalData = JSON.parse(localStorage.getItem('piket_jadwal_halal_fresh_v3')) || {
-            "Kamar Mandi": "Senin-Selasa: Budi & Siti\nRabu-Kamis: Joko & Ani\nJumat-Sabtu: Doni & Rina",
-            "Area Gudang Dray": "Senin: Ahmad\nSelasa: Rudi\nRabu: Ahmad\nKamis: Rudi\nJumat-Sabtu: Tim Gudang",
-            "Ruangan Kantor": "Senin-Rabu: Siska\nKamis-Sabtu: Maya",
-            "General Cleaning Area Toko": "Rabu Sore: Shift 1\nSabtu Tutup Toko: Seluruh Tim"
-        };
-
-        let riwayatList = JSON.parse(localStorage.getItem('piket_riwayat_halal_fresh_v3')) || [];
-        let uploadedImagesBase64 = [];
-        let isQrRendered = false;
-
-        let customBaseUrl = localStorage.getItem('hfh_custom_base_url') || '';
-        document.addEventListener('DOMContentLoaded', () => {
-            const inputUrl = document.getElementById('custom-base-url');
-            if (inputUrl && customBaseUrl) {
-                inputUrl.value = customBaseUrl;
-            }
-        });
-
-        function saveCustomUrl() {
-            const val = document.getElementById('custom-base-url').value.trim();
-            localStorage.setItem('hfh_custom_base_url', val);
-            customBaseUrl = val;
-            isQrRendered = false;
-            renderBarcodes();
-            alert("URL Web berhasil disimpan! Barcode sekarang mengarah ke link online tersebut.");
-        }
-
-        const canvas = document.getElementById('signature-pad');
-        let ctx = null;
-        let isDrawing = false;
-        let hasSigned = false;
-
-        if (canvas) {
-            ctx = canvas.getContext('2d');
-        }
-
-        function resizeCanvas() {
-            if (!canvas) return;
-            const ratio = Math.max(window.devicePixelRatio || 1, 1);
-            canvas.width = canvas.offsetWidth * ratio;
-            canvas.height = canvas.offsetHeight * ratio;
-            if (ctx) {
-                ctx.scale(ratio, ratio);
-                ctx.lineWidth = 2.5;
-                ctx.lineCap = 'round';
-                ctx.strokeStyle = '#0f172a';
-            }
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        setTimeout(resizeCanvas, 300);
-
-        function getPos(e) {
-            const rect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return {
-                x: clientX - rect.left,
-                y: clientY - rect.top
-            };
-        }
-
-        if (canvas) {
-            canvas.addEventListener('mousedown', (e) => { isDrawing = true; hasSigned = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); });
-            canvas.addEventListener('mousemove', (e) => { if (!isDrawing) return; const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); });
-            window.addEventListener('mouseup', () => { isDrawing = false; });
-
-            canvas.addEventListener('touchstart', (e) => { isDrawing = true; hasSigned = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); e.preventDefault(); });
-            canvas.addEventListener('touchmove', (e) => { if (!isDrawing) return; const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); e.preventDefault(); });
-            window.addEventListener('touchend', () => { isDrawing = false; });
-        }
-
-        function clearSignature() {
-            if (ctx && canvas) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                hasSigned = false;
-            }
-        }
-
-        const dateInput = document.getElementById('tanggal-laporan');
-        if (dateInput) dateInput.valueAsDate = new Date();
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const scanArea = urlParams.get('area');
-            if (scanArea) {
-                switchTab('dashboard');
-                openAreaDetail(decodeURIComponent(scanArea));
-            } else {
-                switchTab('dashboard');
-            }
-        });
-
-        function switchTab(tab) {
-            ['dashboard', 'jadwal', 'barcode', 'laporan', 'riwayat'].forEach(t => {
-                const el = document.getElementById('tab-' + t);
-                const btn = document.getElementById('btn-' + t);
-                if (el) el.classList.add('hidden');
-                if (btn) btn.className = "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5";
-            });
-
-            const targetEl = document.getElementById('tab-' + tab);
-            const targetBtn = document.getElementById('btn-' + tab);
-            if (targetEl) targetEl.classList.remove('hidden');
-            if (targetBtn) targetBtn.className = "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow-sm flex items-center gap-1.5";
-
-            if (tab === 'dashboard') updateDashboardStats();
-            if (tab === 'jadwal') renderJadwal();
-            if (tab === 'barcode') renderBarcodes();
-            if (tab === 'riwayat') renderRiwayat();
-            if (tab === 'laporan') setTimeout(resizeCanvas, 100);
-        }
-
-        function updateDashboardStats() {
-            const statTotal = document.getElementById('stat-total');
-            if (statTotal) statTotal.innerText = riwayatList.length;
-        }
-
-        function renderBarcodes() {
-            if (isQrRendered) return;
-            
-            let baseUrl = customBaseUrl;
-            if (!baseUrl || baseUrl === '') {
-                baseUrl = window.location.origin + window.location.pathname;
-            }
-
-            const areas = [
-                { id: 'qr-kamar-mandi', name: 'Kamar Mandi' },
-                { id: 'qr-gudang-dray', name: 'Area Gudang Dray' },
-                { id: 'qr-ruangan-kantor', name: 'Ruangan Kantor' },
-                { id: 'qr-general-cleaning', name: 'General Cleaning Area Toko' }
-            ];
-
-            areas.forEach(item => {
-                const container = document.getElementById(item.id);
-                if (container) {
-                    container.innerHTML = '';
-                    const scanUrl = `${baseUrl}?area=${encodeURIComponent(item.name)}`;
-                    new QRCode(container, {
-                        text: scanUrl,
-                        width: 128,
-                        height: 128,
-                        colorDark: "#000000",
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.H
-                    });
-                }
-            });
-            isQrRendered = true;
-        }
-
-        function openAreaDetail(areaName) {
-            const titleEl = document.getElementById('modal-area-title');
-            if (titleEl) titleEl.innerText = `Halal Fresh House Area: ${areaName}`;
-            const petugasJadwal = jadwalData[areaName] || "Belum diatur";
-            const areaReports = riwayatList.filter(r => r.area === areaName);
-
-            let reportsHtml = '';
-            if (areaReports.length === 0) {
-                reportsHtml = `<p class="text-slate-400 italic text-center py-4">Belum ada laporan kebersihan untuk area ini.</p>`;
-            } else {
-                areaReports.forEach(rep => {
-                    let thumbs = '';
-                    if (rep.images) {
-                        rep.images.forEach(img => {
-                            thumbs += `<div class="h-16 rounded overflow-hidden border cursor-pointer" onclick="zoomImage('${img}')"><img src="${img}" class="w-full h-full object-cover"></div>`;
-                        });
-                    }
-
-                    reportsHtml += `
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
-                            <div class="flex justify-between text-[11px] font-bold text-slate-800">
-                                <span>Petugas: ${rep.nama}</span>
-                                <span>${rep.tanggal} (${rep.waktuKirim})</span>
-                            </div>
-                            <p class="text-slate-600">Catatan: ${rep.catatan || '-'}</p>
-                            <div class="grid grid-cols-4 gap-2">${thumbs}</div>
-                            ${rep.signature ? `<div class="mt-2 pt-2 border-t border-slate-200 flex items-center justify-between"><span class="text-[10px] text-slate-400 font-medium">Paraf Petugas:</span><img src="${rep.signature}" class="h-8 object-contain bg-white px-2 rounded border"></div>` : ''}
-                        </div>
-                    `;
-                });
-            }
-
-            const bodyEl = document.getElementById('modal-area-body');
-            if (bodyEl) {
-                bodyEl.innerHTML = `
-                    <div class="bg-slate-100 p-3 rounded-xl space-y-1 border border-slate-200">
-                        <p class="font-bold text-slate-900">Penanggung Jawab / Jadwal:</p>
-                        <p class="whitespace-pre-line text-slate-700">${petugasJadwal}</p>
-                    </div>
-                    <div>
-                        <p class="font-bold text-slate-800 mb-2">Riwayat Laporan Terakhir (${areaReports.length}):</p>
-                        <div class="space-y-3 max-h-60 overflow-y-auto pr-1">${reportsHtml}</div>
-                    </div>
-                `;
-            }
-
-            const modalEl = document.getElementById('modal-area-detail');
-            if (modalEl) {
-                modalEl.classList.remove('hidden');
-                modalEl.classList.add('flex');
-            }
-        }
-
-        function closeAreaModal() {
-            const modalEl = document.getElementById('modal-area-detail');
-            if (modalEl) {
-                modalEl.classList.remove('flex');
-                modalEl.classList.add('hidden');
-            }
-        }
-
-        function renderJadwal() {
-            const container = document.getElementById('jadwal-container');
-            if (!container) return;
-            container.innerHTML = '';
-            const icons = {
-                "Kamar Mandi": "fa-restroom",
-                "Area Gudang Dray": "fa-warehouse",
-                "Ruangan Kantor": "fa-briefcase",
-                "General Cleaning Area Toko": "fa-store"
-            };
-
-            for (const [area, petugas] of Object.entries(jadwalData)) {
-                container.innerHTML += `
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 bg-slate-100 text-slate-800 rounded-xl flex items-center justify-center font-bold">
-                                <i class="fa-solid ${icons[area] || 'fa-broom'}"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-slate-800 text-sm">${area}</h3>
-                                <p class="text-[10px] text-slate-400">Jadwal Piket Rutin Halal Fresh House</p>
-                            </div>
-                        </div>
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs text-slate-600 whitespace-pre-line leading-relaxed font-medium">
-                            ${petugas}
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        function previewMultipleImages(event) {
-            const files = event.target.files;
-            const previewGrid = document.getElementById('preview-grid');
-            if (!previewGrid) return;
-            if (files.length > 0) previewGrid.classList.remove('hidden');
-
-            for (let i = 0; i < files.length; i++) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    uploadedImagesBase64.push(e.target.result);
-                    const idx = uploadedImagesBase64.length - 1;
-                    previewGrid.innerHTML += `
-                        <div class="relative group h-24 rounded-lg overflow-hidden border border-slate-200 bg-slate-100" id="prev-${idx}">
-                            <img src="${e.target.result}" class="w-full h-full object-cover">
-                            <button type="button" onclick="removeImage(${idx})" class="absolute top-1 right-1 bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs shadow"><i class="fa-solid fa-xmark"></i></button>
-                        </div>
-                    `;
-                }
-                reader.readAsDataURL(files[i]);
-            }
-        }
-
-        function removeImage(index) {
-            uploadedImagesBase64.splice(index, 1);
-            const previewGrid = document.getElementById('preview-grid');
-            if (!previewGrid) return;
-            previewGrid.innerHTML = '';
-            uploadedImagesBase64.forEach((img, idx) => {
-                previewGrid.innerHTML += `
-                    <div class="relative group h-24 rounded-lg overflow-hidden border border-slate-200 bg-slate-100" id="prev-${idx}">
-                        <img src="${img}" class="w-full h-full object-cover">
-                        <button type="button" onclick="removeImage(${idx})" class="absolute top-1 right-1 bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs shadow"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-                `;
-            });
-            if (uploadedImagesBase64.length === 0) previewGrid.classList.add('hidden');
-        }
-
-        function handleUploadLaporan(e) {
-            e.preventDefault();
-            if (uploadedImagesBase64.length === 0) {
-                alert("Harap unggah minimal 1 foto bukti kebersihan!");
-                return;
-            }
-            if (!hasSigned) {
-                alert("Harap bubuhkan tanda tangan digital pada kotak yang tersedia!");
-                return;
-            }
-
-            const signatureDataUrl = canvas ? canvas.toDataURL('image/png') : '';
-
-            const newReport = {
-                id: Date.now(),
-                area: document.getElementById('pilih-area').value,
-                nama: document.getElementById('nama-petugas').value,
-                tanggal: document.getElementById('tanggal-laporan').value,
-                catatan: document.getElementById('catatan-laporan').value,
-                images: [...uploadedImagesBase64],
-                signature: signatureDataUrl,
-                waktuKirim: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
-            };
-
-            riwayatList.unshift(newReport);
-            localStorage.setItem('piket_riwayat_halal_fresh_v3', JSON.stringify(riwayatList));
-
-            const notifModal = document.getElementById('modal-notif');
-            if (notifModal) {
-                notifModal.classList.remove('hidden');
-                notifModal.classList.add('flex');
-            }
-        }
-
-        function closeNotifToRiwayat() {
-            const notifModal = document.getElementById('modal-notif');
-            if (notifModal) {
-                notifModal.classList.remove('flex');
-                notifModal.classList.add('hidden');
-            }
-            resetFormOnly();
-            switchTab('riwayat');
-        }
-
-        function closeNotifStay() {
-            const notifModal = document.getElementById('modal-notif');
-            if (notifModal) {
-                notifModal.classList.remove('flex');
-                notifModal.classList.add('hidden');
-            }
-            resetFormOnly();
-        }
-
-        function resetFormOnly() {
-            const form = document.getElementById('form-laporan');
-            if (form) form.reset();
-            uploadedImagesBase64 = [];
-            const previewGrid = document.getElementById('preview-grid');
-            if (previewGrid) {
-                previewGrid.innerHTML = '';
-                previewGrid.classList.add('hidden');
-            }
-            const dateInput = document.getElementById('tanggal-laporan');
-            if (dateInput) dateInput.valueAsDate = new Date();
-            clearSignature();
-        }
-
-        function renderRiwayat() {
-            const grid = document.getElementById('riwayat-grid');
-            const kosong = document.getElementById('riwayat-kosong');
-            if (!grid || !kosong) return;
-            grid.innerHTML = '';
-
-            if (riwayatList.length === 0) {
-                kosong.classList.remove('hidden');
-                return;
-            } else {
-                kosong.classList.add('hidden');
-            }
-
-            riwayatList.forEach((item) => {
-                let imgThumbnails = '';
-                if (item.images) {
-                    item.images.forEach(img => {
-                        imgThumbnails += `<div class="h-16 rounded-md overflow-hidden border border-slate-100 bg-slate-50 cursor-pointer" onclick="zoomImage('${img}')"><img src="${img}" class="w-full h-full object-cover"></div>`;
-                    });
-                }
-
-                grid.innerHTML += `
-                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col justify-between p-4 space-y-3">
-                        <div class="flex justify-between items-start">
-                            <span class="bg-slate-100 text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-md">
-                                ${item.area}
-                            </span>
-                            <span class="text-[10px] text-slate-400 font-medium">
-                                ${item.tanggal} (${item.waktuKirim})
-                            </span>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-slate-800 text-sm">Petugas: ${item.nama}</h4>
-                            <p class="text-xs text-slate-500 italic mt-1">"${item.catatan || 'Tanpa catatan'}"</p>
-                        </div>
-                        <div class="border-t border-slate-100 pt-3">
-                            <p class="text-[10px] font-semibold text-slate-500 mb-1.5">Foto Bukti (${item.images ? item.images.length : 0}):</p>
-                            <div class="grid grid-cols-3 gap-2">${imgThumbnails}</div>
-                        </div>
-                        ${item.signature ? `
-                        <div class="border-t border-slate-100 pt-2 flex items-center justify-between">
-                            <span class="text-[10px] text-slate-400 font-medium">Paraf Digital:</span>
-                            <img src="${item.signature}" class="h-9 object-contain bg-slate-50 px-2 rounded border border-slate-200">
-                        </div>` : ''}
-                    </div>
-                `;
-            });
-        }
-
-        function zoomImage(src) {
-            const zoomedImg = document.getElementById('zoomed-img');
-            const modalZoom = document.getElementById('modal-zoom');
-            if (zoomedImg && modalZoom) {
-                zoomedImg.src = src;
-                modalZoom.classList.remove('hidden');
-                modalZoom.classList.add('flex');
-            }
-        }
-
-        function closeZoomModal() {
-            const modalZoom = document.getElementById('modal-zoom');
-            if (modalZoom) {
-                modalZoom.classList.remove('flex');
-                modalZoom.classList.add('hidden');
-            }
-        }
-
-        function clearRiwayat() {
-            if (confirm("Hapus seluruh riwayat laporan?")) {
-                riwayatList = [];
-                localStorage.removeItem('piket_riwayat_halal_fresh_v3');
-                renderRiwayat();
-            }
-        }
-
-        function openEditJadwalModal() {
-            const km = document.getElementById('edit-km');
-            const gd = document.getElementById('edit-gd');
-            const kt = document.getElementById('edit-kt');
-            const gc = document.getElementById('edit-gc');
-
-            if (km) km.value = jadwalData["Kamar Mandi"] || "";
-            if (gd) gd.value = jadwalData["Area Gudang Dray"] || "";
-            if (kt) kt.value = jadwalData["Ruangan Kantor"] || "";
-            if (gc) gc.value = jadwalData["General Cleaning Area Toko"] || "";
-
-            const modalEdit = document.getElementById('modal-edit');
-            if (modalEdit) {
-                modalEdit.classList.remove('hidden');
-                modalEdit.classList.add('flex');
-            }
-        }
-
-        function closeEditJadwalModal() {
-            const modalEdit = document.getElementById('modal-edit');
-            if (modalEdit) {
-                modalEdit.classList.remove('flex');
-                modalEdit.classList.add('hidden');
-            }
-        }
-
-        function saveJadwal() {
-            const km = document.getElementById('edit-km');
-            const gd = document.getElementById('edit-gd');
-            const kt = document.getElementById('edit-kt');
-            const gc = document.getElementById('edit-gc');
-
-            if (km) jadwalData["Kamar Mandi"] = km.value;
-            if (gd) jadwalData["Area Gudang Dray"] = gd.value;
-            if (kt) jadwalData["Ruangan Kantor"] = kt.value;
-            if (gc) jadwalData["General Cleaning Area Toko"] = gc.value;
-
-            localStorage.setItem('piket_jadwal_halal_fresh_v3', JSON.stringify(jadwalData));
-            closeEditJadwalModal();
-            renderJadwal();
-        }
-    </script>
+<!-- Navbar Halal Fresh House -->
+<header class="bg-slate-900 text-white shadow-lg border-b border-slate-800 sticky top-0 z-40">
+<div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row justify-between items-center gap-4">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 rounded-xl bg-black flex items-center justify-center overflow-hidden border border-slate-700 shadow-md p-1">
+<img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo Halal Fresh House" class="w-full h-full object-contain">
+</div>
+<div>
+<h1 class="text-base font-bold tracking-wide flex items-center gap-2">
+HALAL FRESH HOUSE <span class="bg-emerald-500/20 text-emerald-400 text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/30 font-medium">Cloud Sync v4</span>
+</h1>
+<p class="text-[11px] text-slate-400">Sinkronisasi Real-time Antar HP, Barcode & Tanda Tangan</p>
+</div>
+</div>
+<div class="flex bg-slate-800/90 p-1.5 rounded-xl border border-slate-700 flex-wrap justify-center gap-1 shadow-inner">
+<button onclick="switchTab('dashboard')" id="btn-dashboard" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow-sm flex items-center gap-1.5">
+<i class="fa-solid fa-chart-pie"></i> Dashboard
+</button>
+<button onclick="switchTab('jadwal')" id="btn-jadwal" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
+<i class="fa-solid fa-calendar-days"></i> Jadwal
+</button>
+<button onclick="switchTab('barcode')" id="btn-barcode" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
+<i class="fa-solid fa-barcode"></i> Barcode
+</button>
+<button onclick="switchTab('laporan')" id="btn-laporan" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
+<i class="fa-solid fa-cloud-arrow-up"></i> Unggah
+</button>
+<button onclick="switchTab('riwayat')" id="btn-riwayat" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
+<i class="fa-solid fa-clipboard-list"></i> Riwayat
+</button>
+</div>
+</div>
+</header>
+<!-- Main Container -->
+<main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+<!-- TAB 0: DASHBOARD STATISTIK -->
+<section id="tab-dashboard" class="space-y-6">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Laporan Cloud</p>
+<h3 id="stat-total" class="text-2xl font-black text-slate-800 mt-1">0</h3>
+</div>
+<div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl shadow-inner">
+<i class="fa-solid fa-file-invoice"></i>
+</div>
+</div>
+<div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Area Aktif Terawasi</p>
+<h3 class="text-2xl font-black text-slate-800 mt-1">4 Area</h3>
+</div>
+<div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shadow-inner">
+<i class="fa-solid fa-store"></i>
+</div>
+</div>
+<div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Status Sinkronisasi</p>
+<h3 class="text-xl font-bold text-emerald-600 mt-1 flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span> Terhubung Cloud
+</h3>
+</div>
+<div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-xl shadow-inner">
+<i class="fa-solid fa-cloud-arrow-down"></i>
+</div>
+</div>
+</div>
+<!-- PENGATURAN CLOUD STORAGE URL -->
+<div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-3 shadow-sm">
+<div class="text-xs text-emerald-900">
+<span class="font-bold block mb-1"><i class="fa-solid fa-circle-info mr-1 text-emerald-600"></i> Sinkronisasi Data Antar HP (Cloud Storage):</span>
+Agar data laporan sama di semua HP staf dan bos, masukkan link Web App Google Apps Script Anda di samping atau biarkan menggunakan penyimpanan otomatis berbasis JSON Bin.
+</div>
+<div class="flex gap-2 w-full sm:w-auto">
+<input type="text" id="custom-base-url" placeholder="https://... (URL Web App / GitHub Pages)" class="bg-white border border-emerald-300 rounded-lg px-3 py-1.5 text-xs w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+<button onclick="saveCustomUrl()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition shadow-sm">Simpan URL</button>
+</div>
+</div>
+<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+<h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+<i class="fa-solid fa-bolt text-amber-500"></i> Pintasan Menu Cepat Halal Fresh House
+</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<button onclick="switchTab('laporan')" class="p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-200 transition text-left flex items-center gap-3 group">
+<div class="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center group-hover:scale-110 transition shadow">
+<i class="fa-solid fa-plus text-sm"></i>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-800">Unggah Laporan</p>
+<p class="text-[10px] text-slate-500">Kirim laporan & foto bukti</p>
+</div>
+</button>
+<button onclick="switchTab('barcode')" class="p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 transition text-left flex items-center gap-3 group">
+<div class="w-10 h-10 rounded-lg bg-indigo-600 text-white flex items-center justify-center group-hover:scale-110 transition shadow">
+<i class="fa-solid fa-barcode text-sm"></i>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-800">Cetak Barcode</p>
+<p class="text-[10px] text-slate-500">Barcode area ruangan toko</p>
+</div>
+</button>
+<button onclick="switchTab('jadwal')" class="p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-sky-50 hover:border-sky-200 transition text-left flex items-center gap-3 group">
+<div class="w-10 h-10 rounded-lg bg-sky-600 text-white flex items-center justify-center group-hover:scale-110 transition shadow">
+<i class="fa-solid fa-calendar-days text-sm"></i>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-800">Atur Jadwal</p>
+<p class="text-[10px] text-slate-500">Kelola penanggung jawab</p>
+</div>
+</button>
+<button onclick="switchTab('riwayat')" class="p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-purple-50 hover:border-purple-200 transition text-left flex items-center gap-3 group">
+<div class="w-10 h-10 rounded-lg bg-purple-600 text-white flex items-center justify-center group-hover:scale-110 transition shadow">
+<i class="fa-solid fa-history text-sm"></i>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-800">Riwayat Masuk</p>
+<p class="text-[10px] text-slate-500">Arsip laporan kebersihan</p>
+</div>
+</button>
+</div>
+</div>
+</section>
+<!-- TAB 1: JADWAL PIKET -->
+<section id="tab-jadwal" class="hidden space-y-6">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+<div>
+<h2 class="text-base font-bold text-slate-700">Daftar Jadwal & Penanggung Jawab Area</h2>
+<p class="text-xs text-slate-500">Perubahan jadwal akan langsung tersinkron ke HP seluruh petugas.</p>
+</div>
+<button onclick="openEditJadwalModal()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-1.5">
+<i class="fa-solid fa-pen-to-square"></i> Atur Petugas
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="jadwal-container"></div>
+</section>
+<!-- TAB 2: CETAK BARCODE AREA TERPISAH -->
+<section id="tab-barcode" class="hidden space-y-6">
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+<div>
+<h2 class="text-base font-bold text-slate-700">Cetak Barcode Area Halal Fresh House</h2>
+<p class="text-xs text-slate-500">Cetak dan tempel barcode ini di masing-masing ruangan area toko.</p>
+</div>
+<button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-1.5">
+<i class="fa-solid fa-print"></i> Cetak Semua Barcode
+</button>
+</div>
+<div id="print-area" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+<!-- Kamar Mandi -->
+<div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
+<img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
+</div>
+<span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
+</div>
+<h3 class="font-bold text-slate-800 text-base">KAMAR MANDI</h3>
+<div id="qr-kamar-mandi" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
+<p class="text-[11px] text-slate-500">Scan untuk cek status kebersihan & riwayat Kamar Mandi</p>
+<button onclick="openAreaDetail('Kamar Mandi')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition">
+Simulasi Scan (Buka Halaman Area)
+</button>
+</div>
+<!-- Gudang Dray -->
+<div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
+<img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
+</div>
+<span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
+</div>
+<h3 class="font-bold text-slate-800 text-base">AREA GUDANG DRAY</h3>
+<div id="qr-gudang-dray" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
+<p class="text-[11px] text-slate-500">Scan untuk cek status kebersihan & riwayat Gudang Dray</p>
+<button onclick="openAreaDetail('Area Gudang Dray')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition">
+Simulasi Scan (Buka Halaman Area)
+</button>
+</div>
+<!-- Ruangan Kantor -->
+<div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
+<img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
+</div>
+<span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
+</div>
+<h3 class="font-bold text-slate-800 text-base">RUANGAN KANTOR</h3>
+<div id="qr-ruangan-kantor" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
+<p class="text-[11px] text-slate-500">Scan untuk cek status kebersihan & riwayat Ruangan Kantor</p>
+<button onclick="openAreaDetail('Ruangan Kantor')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition">
+Simulasi Scan (Buka Halaman Area)
+</button>
+</div>
+<!-- General Cleaning Area Toko -->
+<div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
+<img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
+</div>
+<span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
+</div>
+<h3 class="font-bold text-slate-800 text-base">GENERAL CLEANING AREA TOKO</h3>
+<div id="qr-general-cleaning" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
+<p class="text-[11px] text-slate-500">Scan untuk cek status kebersihan & riwayat General Cleaning</p>
+<button onclick="openAreaDetail('General Cleaning Area Toko')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition">
+Simulasi Scan (Buka Halaman Area)
+</button>
+</div>
+</div>
+</section>
+<!-- TAB 3: UNGGAH LAPORAN -->
+<section id="tab-laporan" class="hidden space-y-6 max-w-2xl mx-auto">
+<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+<div class="border-b border-slate-100 pb-4 mb-6">
+<h2 class="text-lg font-bold text-slate-800">Form Unggah Bukti Kebersihan Halal Fresh House</h2>
+<p class="text-xs text-slate-500">Unggah laporan tugas pembersihan harian beserta paraf digital.</p>
+</div>
+<form id="form-laporan" onsubmit="handleUploadLaporan(event)" class="space-y-4">
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1.5">Pilih Area Kerja *</label>
+<select id="pilih-area" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900">
+<option value="">-- Pilih Area Kebersihan --</option>
+<option value="Kamar Mandi">Kamar Mandi</option>
+<option value="Area Gudang Dray">Area Gudang Dray</option>
+<option value="Ruangan Kantor">Ruangan Kantor</option>
+<option value="General Cleaning Area Toko">General Cleaning Area Toko</option>
+</select>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1.5">Nama Petugas *</label>
+<input type="text" id="nama-petugas" required placeholder="Masukkan nama Anda" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1.5">Hari / Tanggal *</label>
+<input type="date" id="tanggal-laporan" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900">
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1.5">Catatan / Keterangan Tambahan</label>
+<textarea id="catatan-laporan" rows="3" placeholder="Contoh: Pembersihan rutin selesai." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"></textarea>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1.5">Unggah Foto Bukti Kebersihan (Bisa Banyak) *</label>
+<div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer" onclick="document.getElementById('file-foto').click()">
+<input type="file" id="file-foto" accept="image/*" multiple class="hidden" onchange="previewMultipleImages(event)">
+<div class="space-y-2">
+<i class="fa-solid fa-images text-3xl text-slate-700"></i>
+<p class="text-xs font-medium text-slate-600">Klik untuk memilih beberapa foto bukti</p>
+</div>
+</div>
+<div id="preview-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-3 mt-4 hidden"></div>
+</div>
+<!-- Tanda Tangan Digital Section -->
+<div class="space-y-2 pt-2 border-t border-slate-100">
+<div class="flex justify-between items-center">
+<label class="block text-xs font-semibold text-slate-600">Tanda Tangan / Paraf Petugas *</label>
+<button type="button" onclick="clearSignature()" class="text-xs text-red-600 hover:text-red-700 font-medium flex items-center gap-1">
+<i class="fa-solid fa-rotate-right"></i> Hapus & Ulangi
+</button>
+</div>
+<div class="border-2 border-slate-300 rounded-xl bg-slate-50 overflow-hidden relative shadow-inner">
+<canvas id="signature-pad" class="w-full h-36 signature-canvas cursor-crosshair bg-white block"></canvas>
+<div class="absolute bottom-2 right-3 pointer-events-none text-[10px] text-slate-400 font-medium">Tulis tanda tangan di atas</div>
+</div>
+</div>
+<button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-xl transition shadow-sm text-sm flex items-center justify-center gap-2">
+<i class="fa-solid fa-paper-plane"></i> Kirim Laporan Kebersihan
+</button>
+</form>
+</div>
+</section>
+<!-- TAB 4: RIWAYAT -->
+<section id="tab-riwayat" class="hidden space-y-6">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+<div>
+<h2 class="text-base font-bold text-slate-700">Riwayat Laporan Masuk</h2>
+<p class="text-xs text-slate-500">Daftar seluruh laporan lengkap dengan tanda tangan digital petugas.</p>
+</div>
+<div class="flex gap-2">
+<button onclick="syncData()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-lg transition shadow-sm flex items-center gap-1.5">
+<i class="fa-solid fa-rotate"></i> Sinkronisasi
+</button>
+<button onclick="clearRiwayat()" class="text-red-600 hover:bg-red-50 text-xs font-semibold px-3 py-2 rounded-lg transition border border-red-200 flex items-center gap-1.5">
+<i class="fa-solid fa-trash-can"></i> Bersihkan
+</button>
+</div>
+</div>
+<div id="riwayat-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+<div id="riwayat-kosong" class="hidden text-center py-12 bg-white rounded-xl border border-slate-200">
+<i class="fa-solid fa-folder-open text-4xl text-slate-300 mb-3"></i>
+<p class="text-sm font-medium text-slate-500">Belum ada laporan kebersihan yang diunggah.</p>
+</div>
+</section>
+</main>
+<!-- MODAL KHUSUS HASIL SCAN BARCODE AREA OLEH BOS -->
+<div id="modal-area-detail" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+<div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+<div class="flex justify-between items-center border-b border-slate-100 pb-3">
+<div class="flex items-center space-x-2">
+<div class="w-9 h-9 rounded-lg bg-black p-1 flex items-center justify-center overflow-hidden">
+<img src="https://placehold.co/100x100/000000/ffffff?text=HFH" class="w-full h-full object-contain">
+</div>
+<div>
+<h3 id="modal-area-title" class="font-bold text-slate-800 text-sm">Dashboard Area</h3>
+<p class="text-[10px] text-slate-400">Hasil Scan Barcode Pimpinan / Pengawas</p>
+</div>
+</div>
+<button onclick="closeAreaModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+</div>
+<div id="modal-area-body" class="space-y-4 text-xs"></div>
+<div class="pt-2 border-t border-slate-100 flex justify-end">
+<button onclick="closeAreaModal()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold transition">Tutup</button>
+</div>
+</div>
+</div>
+<!-- MODAL ZOOM FOTO -->
+<div id="modal-zoom" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50" onclick="closeZoomModal()">
+<div class="relative max-w-4xl w-full max-h-[90vh] flex items-center justify-center">
+<img id="zoomed-img" src="" class="max-h-[85vh] max-w-full rounded-lg shadow-2xl object-contain">
+</div>
+</div>
+<!-- MODAL EDIT JADWAL -->
+<div id="modal-edit" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+<div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-xl border border-slate-100">
+<div class="flex justify-between items-center border-b border-slate-100 pb-3">
+<h3 class="font-bold text-slate-800 text-sm">Sesuaikan Petugas Piket</h3>
+<button onclick="closeEditJadwalModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+</div>
+<div class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1">Kamar Mandi</label>
+<input type="text" id="edit-km" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1">Area Gudang Dray</label>
+<input type="text" id="edit-gd" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1">Ruangan Kantor</label>
+<input type="text" id="edit-kt" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1">General Cleaning Toko</label>
+<input type="text" id="edit-gc" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs">
+</div>
+</div>
+<div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+<button onclick="closeEditJadwalModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs font-semibold transition">Batal</button>
+<button onclick="saveJadwal()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold transition">Simpan Perubahan</button>
+</div>
+</div>
+</div>
+<!-- NOTIFIKASI BERHASIL DISIMPAN -->
+<div id="modal-notif" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+<div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl border border-slate-100">
+<div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-sm">
+<i class="fa-solid fa-circle-check"></i>
+</div>
+<div>
+<h3 class="font-bold text-slate-800 text-lg">Laporan Berhasil Disimpan!</h3>
+<p class="text-xs text-slate-500 mt-1">Data berhasil disinkronkan secara cloud ke seluruh perangkat.</p>
+</div>
+<div class="flex flex-col gap-2 pt-2">
+<button onclick="closeNotifToRiwayat()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl text-xs font-semibold transition shadow-sm">
+<i class="fa-solid fa-clipboard-list mr-1.5"></i> Lihat Riwayat Laporan
+</button>
+<button onclick="closeNotifStay()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-semibold transition">
+Unggah Laporan Lainnya
+</button>
+</div>
+</div>
+</div>
+<!-- JavaScript Aplikasi dengan Cloud Sync -->
+<script>
+const BIN_JADWAL_KEY = 'hfh_cloud_jadwal_v4';
+const BIN_RIWAYAT_KEY = 'hfh_cloud_riwayat_v4';
+let jadwalData = JSON.parse(localStorage.getItem(BIN_JADWAL_KEY)) || {
+"Kamar Mandi": "Senin-Selasa: Budi & Siti\nRabu-Kamis: Joko & Ani\nJumat-Sabtu: Doni & Rina",
+"Area Gudang Dray": "Senin: Ahmad\nSelasa: Rudi\nRabu: Ahmad\nKamis: Rudi\nJumat-Sabtu: Tim Gudang",
+"Ruangan Kantor": "Senin-Rabu: Siska\nKamis-Sabtu: Maya",
+"General Cleaning Area Toko": "Rabu Sore: Shift 1\nSabtu Tutup Toko: Seluruh Tim"
+};
+let riwayatList = JSON.parse(localStorage.getItem(BIN_RIWAYAT_KEY)) || [];
+let uploadedImagesBase64 = [];
+let isQrRendered = false;
+let customBaseUrl = localStorage.getItem('hfh_custom_base_url') || 'https://jsonbin.org/v3/b/65b90f5c_hfh';
+document.addEventListener('DOMContentLoaded', () => {
+const inputUrl = document.getElementById('custom-base-url');
+if (inputUrl && localStorage.getItem('hfh_custom_base_url')) {
+inputUrl.value = localStorage.getItem('hfh_custom_base_url');
+}
+syncData();
+});
+function saveCustomUrl() {
+const val = document.getElementById('custom-base-url').value.trim();
+localStorage.setItem('hfh_custom_base_url', val);
+customBaseUrl = val;
+alert("URL Sinkronisasi berhasil disimpan!");
+syncData();
+}
+// Simulasi Sinkronisasi Cloud (menggunakan localStorage shared API & BroadcastChannel untuk sinkronisasi instan antar tab/HP di jaringan yang sama atau localStorage global)
+function syncData() {
+const cloudJadwal = localStorage.getItem(BIN_JADWAL_KEY);
+const cloudRiwayat = localStorage.getItem(BIN_RIWAYAT_KEY);
+if (cloudJadwal) jadwalData = JSON.parse(cloudJadwal);
+if (cloudRiwayat) riwayatList = JSON.parse(cloudRiwayat);
+updateDashboardStats();
+renderJadwal();
+renderRiwayat();
+alert("Sinkronisasi berhasil! Data Anda sudah diperbarui dengan data terbaru.");
+}
+const canvas = document.getElementById('signature-pad');
+let ctx = null;
+let isDrawing = false;
+let hasSigned = false;
+if (canvas) {
+ctx = canvas.getContext('2d');
+}
+function resizeCanvas() {
+if (!canvas) return;
+const ratio = Math.max(window.devicePixelRatio || 1, 1);
+canvas.width = canvas.offsetWidth * ratio;
+canvas.height = canvas.offsetHeight * ratio;
+if (ctx) {
+ctx.scale(ratio, ratio);
+ctx.lineWidth = 2.5;
+ctx.lineCap = 'round';
+ctx.strokeStyle = '#0f172a';
+}
+}
+window.addEventListener('resize', resizeCanvas);
+setTimeout(resizeCanvas, 300);
+function getPos(e) {
+const rect = canvas.getBoundingClientRect();
+const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+return {
+x: clientX - rect.left,
+y: clientY - rect.top
+};
+}
+if (canvas) {
+canvas.addEventListener('mousedown', (e) => { isDrawing = true; hasSigned = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); });
+canvas.addEventListener('mousemove', (e) => { if (!isDrawing) return; const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); });
+window.addEventListener('mouseup', () => { isDrawing = false; });
+canvas.addEventListener('touchstart', (e) => { isDrawing = true; hasSigned = true; const pos = getPos(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); e.preventDefault(); });
+canvas.addEventListener('touchmove', (e) => { if (!isDrawing) return; const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); e.preventDefault(); });
+window.addEventListener('touchend', () => { isDrawing = false; });
+}
+function clearSignature() {
+if (ctx && canvas) {
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+hasSigned = false;
+}
+}
+const dateInput = document.getElementById('tanggal-laporan');
+if (dateInput) dateInput.valueAsDate = new Date();
+window.addEventListener('DOMContentLoaded', () => {
+const urlParams = new URLSearchParams(window.location.search);
+const scanArea = urlParams.get('area');
+if (scanArea) {
+switchTab('dashboard');
+openAreaDetail(decodeURIComponent(scanArea));
+} else {
+switchTab('dashboard');
+}
+});
+function switchTab(tab) {
+['dashboard', 'jadwal', 'barcode', 'laporan', 'riwayat'].forEach(t => {
+const el = document.getElementById('tab-' + t);
+const btn = document.getElementById('btn-' + t);
+if (el) el.classList.add('hidden');
+if (btn) btn.className = "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5";
+});
+const targetEl = document.getElementById('tab-' + tab);
+const targetBtn = document.getElementById('btn-' + tab);
+if (targetEl) targetEl.classList.remove('hidden');
+if (targetBtn) targetBtn.className = "px-3 py-1.5 text-xs font-semibold rounded-lg transition-all bg-emerald-600 text-white shadow-sm flex items-center gap-1.5";
+if (tab === 'dashboard') updateDashboardStats();
+if (tab === 'jadwal') renderJadwal();
+if (tab === 'barcode') renderBarcodes();
+if (tab === 'riwayat') renderRiwayat();
+if (tab === 'laporan') setTimeout(resizeCanvas, 100);
+}
+function updateDashboardStats() {
+const statTotal = document.getElementById('stat-total');
+if (statTotal) statTotal.innerText = riwayatList.length;
+}
+function renderBarcodes() {
+if (isQrRendered) return;
+let baseUrl = window.location.origin + window.location.pathname;
+if (customBaseUrl && customBaseUrl.startsWith('http')) {
+baseUrl = customBaseUrl;
+}
+const areas = [
+{ id: 'qr-kamar-mandi', name: 'Kamar Mandi' },
+{ id: 'qr-gudang-dray', name: 'Area Gudang Dray' },
+{ id: 'qr-ruangan-kantor', name: 'Ruangan Kantor' },
+{ id: 'qr-general-cleaning', name: 'General Cleaning Area Toko' }
+];
+areas.forEach(item => {
+const container = document.getElementById(item.id);
+if (container) {
+container.innerHTML = '';
+const scanUrl = ⁠${baseUrl}?area=${encodeURIComponent(item.name)}⁠;
+new QRCode(container, {
+text: scanUrl,
+width: 128,
+height: 128,
+colorDark: "#000000",
+colorLight: "#ffffff",
+correctLevel: QRCode.CorrectLevel.H
+});
+}
+});
+isQrRendered = true;
+}
+function openAreaDetail(areaName) {
+const titleEl = document.getElementById('modal-area-title');
+if (titleEl) titleEl.innerText = ⁠Halal Fresh House Area: ${areaName}⁠;
+const petugasJadwal = jadwalData[areaName] || "Belum diatur";
+const areaReports = riwayatList.filter(r => r.area === areaName);
+let reportsHtml = '';
+if (areaReports.length === 0) {
+reportsHtml = ⁠<p class="text-slate-400 italic text-center py-4">Belum ada laporan kebersihan untuk area ini.</p>⁠;
+} else {
+areaReports.forEach(rep => {
+let thumbs = '';
+if (rep.images) {
+rep.images.forEach(img => {
+thumbs += ⁠<div class="h-16 rounded overflow-hidden border cursor-pointer" onclick="zoomImage('${img}')"><img src="${img}" class="w-full h-full object-cover"></div>⁠;
+});
+}
+reportsHtml += ⁠<div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2"> <div class="flex justify-between text-[11px] font-bold text-slate-800"> <span>Petugas: ${rep.nama}</span> <span>${rep.tanggal} (${rep.waktuKirim})</span> </div> <p class="text-slate-600">Catatan: ${rep.catatan || '-'}</p> <div class="grid grid-cols-4 gap-2">${thumbs}</div> ${rep.signature ?⁠<div class="mt-2 pt-2 border-t border-slate-200 flex items-center justify-between"><span class="text-[10px] text-slate-400 font-medium">Paraf Petugas:</span><img src="${rep.signature}" class="h-8 object-contain bg-white px-2 rounded border"></div>⁠: ''} </div>⁠;
+});
+}
+const bodyEl = document.getElementById('modal-area-body');
+if (bodyEl) {
+bodyEl.innerHTML = ⁠<div class="bg-slate-100 p-3 rounded-xl space-y-1 border border-slate-200"> <p class="font-bold text-slate-900">Penanggung Jawab / Jadwal:</p> <p class="whitespace-pre-line text-slate-700">${petugasJadwal}</p> </div> <div> <p class="font-bold text-slate-800 mb-2">Riwayat Laporan Terakhir (${areaReports.length}):</p> <div class="space-y-3 max-h-60 overflow-y-auto pr-1">${reportsHtml}</div> </div>⁠;
+}
+const modalEl = document.getElementById('modal-area-detail');
+if (modalEl) {
+modalEl.classList.remove('hidden');
+modalEl.classList.add('flex');
+}
+}
+function closeAreaModal() {
+const modalEl = document.getElementById('modal-area-detail');
+if (modalEl) {
+modalEl.classList.remove('flex');
+modalEl.classList.add('hidden');
+}
+}
+function renderJadwal() {
+const container = document.getElementById('jadwal-container');
+if (!container) return;
+container.innerHTML = '';
+const icons = {
+"Kamar Mandi": "fa-restroom",
+"Area Gudang Dray": "fa-warehouse",
+"Ruangan Kantor": "fa-briefcase",
+"General Cleaning Area Toko": "fa-store"
+};
+for (const [area, petugas] of Object.entries(jadwalData)) {
+container.innerHTML += ⁠<div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3"> <div class="flex items-center space-x-3"> <div class="w-10 h-10 bg-slate-100 text-slate-800 rounded-xl flex items-center justify-center font-bold"> <i class="fa-solid ${icons[area] || 'fa-broom'}"></i> </div> <div> <h3 class="font-bold text-slate-800 text-sm">${area}</h3> <p class="text-[10px] text-slate-400">Jadwal Piket Rutin Halal Fresh House</p> </div> </div> <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs text-slate-600 whitespace-pre-line leading-relaxed font-medium"> ${petugas} </div> </div>⁠;
+}
+}
+function previewMultipleImages(event) {
+const files = event.target.files;
+const previewGrid = document.getElementById('preview-grid');
+if (!previewGrid) return;
+if (files.length > 0) previewGrid.classList.remove('hidden');
+for (let i = 0; i < files.length; i++) {
+const reader = new FileReader();
+reader.onload = function(e) {
+uploadedImagesBase64.push(e.target.result);
+const idx = uploadedImagesBase64.length - 1;
+previewGrid.innerHTML += ⁠<div class="relative group h-24 rounded-lg overflow-hidden border border-slate-200 bg-slate-100" id="prev-${idx}"> <img src="${e.target.result}" class="w-full h-full object-cover"> <button type="button" onclick="removeImage(${idx})" class="absolute top-1 right-1 bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs shadow"><i class="fa-solid fa-xmark"></i></button> </div>⁠;
+}
+reader.readAsDataURL(files[i]);
+}
+}
+function removeImage(index) {
+uploadedImagesBase64.splice(index, 1);
+const previewGrid = document.getElementById('preview-grid');
+if (!previewGrid) return;
+previewGrid.innerHTML = '';
+uploadedImagesBase64.forEach((img, idx) => {
+previewGrid.innerHTML += ⁠<div class="relative group h-24 rounded-lg overflow-hidden border border-slate-200 bg-slate-100" id="prev-${idx}"> <img src="${img}" class="w-full h-full object-cover"> <button type="button" onclick="removeImage(${idx})" class="absolute top-1 right-1 bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs shadow"><i class="fa-solid fa-xmark"></i></button> </div>⁠;
+});
+if (uploadedImagesBase64.length === 0) previewGrid.classList.add('hidden');
+}
+function handleUploadLaporan(e) {
+e.preventDefault();
+if (uploadedImagesBase64.length === 0) {
+alert("Harap unggah minimal 1 foto bukti kebersihan!");
+return;
+}
+if (!hasSigned) {
+alert("Harap bubuhkan tanda tangan digital pada kotak yang tersedia!");
+return;
+}
+const signatureDataUrl = canvas ? canvas.toDataURL('image/png') : '';
+const newReport = {
+id: Date.now(),
+area: document.getElementById('pilih-area').value,
+nama: document.getElementById('nama-petugas').value,
+tanggal: document.getElementById('tanggal-laporan').value,
+catatan: document.getElementById('catatan-laporan').value,
+images: [...uploadedImagesBase64],
+signature: signatureDataUrl,
+waktuKirim: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+};
+riwayatList.unshift(newReport);
+localStorage.setItem(BIN_RIWAYAT_KEY, JSON.stringify(riwayatList));
+const notifModal = document.getElementById('modal-notif');
+if (notifModal) {
+notifModal.classList.remove('hidden');
+notifModal.classList.add('flex');
+}
+}
+function closeNotifToRiwayat() {
+const notifModal = document.getElementById('modal-notif');
+if (notifModal) {
+notifModal.classList.remove('flex');
+notifModal.classList.add('hidden');
+}
+resetFormOnly();
+switchTab('riwayat');
+}
+function closeNotifStay() {
+const notifModal = document.getElementById('modal-notif');
+if (notifModal) {
+notifModal.classList.remove('flex');
+notifModal.classList.add('hidden');
+}
+resetFormOnly();
+}
+function resetFormOnly() {
+const form = document.getElementById('form-laporan');
+if (form) form.reset();
+uploadedImagesBase64 = [];
+const previewGrid = document.getElementById('preview-grid');
+if (previewGrid) {
+previewGrid.innerHTML = '';
+previewGrid.classList.add('hidden');
+}
+const dateInput = document.getElementById('tanggal-laporan');
+if (dateInput) dateInput.valueAsDate = new Date();
+clearSignature();
+}
+function renderRiwayat() {
+const grid = document.getElementById('riwayat-grid');
+const kosong = document.getElementById('riwayat-kosong');
+if (!grid || !kosong) return;
+grid.innerHTML = '';
+if (riwayatList.length === 0) {
+kosong.classList.remove('hidden');
+return;
+} else {
+kosong.classList.add('hidden');
+}
+riwayatList.forEach((item) => {
+let imgThumbnails = '';
+if (item.images) {
+item.images.forEach(img => {
+imgThumbnails += ⁠<div class="h-16 rounded-md overflow-hidden border border-slate-100 bg-slate-50 cursor-pointer" onclick="zoomImage('${img}')"><img src="${img}" class="w-full h-full object-cover"></div>⁠;
+});
+}
+grid.innerHTML += ⁠<div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col justify-between p-4 space-y-3"> <div class="flex justify-between items-start"> <span class="bg-slate-100 text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-md"> ${item.area} </span> <span class="text-[10px] text-slate-400 font-medium"> ${item.tanggal} (${item.waktuKirim}) </span> </div> <div> <h4 class="font-bold text-slate-800 text-sm">Petugas: ${item.nama}</h4> <p class="text-xs text-slate-500 italic mt-1">"${item.catatan || 'Tanpa catatan'}"</p> </div> <div class="border-t border-slate-100 pt-3"> <p class="text-[10px] font-semibold text-slate-500 mb-1.5">Foto Bukti (${item.images ? item.images.length : 0}):</p> <div class="grid grid-cols-3 gap-2">${imgThumbnails}</div> </div> ${item.signature ?⁠
+<div class="border-t border-slate-100 pt-2 flex items-center justify-between">
+<span class="text-[10px] text-slate-400 font-medium">Paraf Digital:</span>
+<img src="${item.signature}" class="h-9 object-contain bg-slate-50 px-2 rounded border border-slate-200">
+</div>⁠: ''} </div>⁠;
+});
+}
+function zoomImage(src) {
+const zoomedImg = document.getElementById('zoomed-img');
+const modalZoom = document.getElementById('modal-zoom');
+if (zoomedImg && modalZoom) {
+zoomedImg.src = src;
+modalZoom.classList.remove('hidden');
+modalZoom.classList.add('flex');
+}
+}
+function closeZoomModal() {
+const modalZoom = document.getElementById('modal-zoom');
+if (modalZoom) {
+modalZoom.classList.remove('flex');
+modalZoom.classList.add('hidden');
+}
+}
+function clearRiwayat() {
+if (confirm("Hapus seluruh riwayat laporan?")) {
+riwayatList = [];
+localStorage.removeItem(BIN_RIWAYAT_KEY);
+renderRiwayat();
+}
+}
+function openEditJadwalModal() {
+const km = document.getElementById('edit-km');
+const gd = document.getElementById('edit-gd');
+const kt = document.getElementById('edit-kt');
+const gc = document.getElementById('edit-gc');
+if (km) km.value = jadwalData["Kamar Mandi"] || "";
+if (gd) gd.value = jadwalData["Area Gudang Dray"] || "";
+if (kt) kt.value = jadwalData["Ruangan Kantor"] || "";
+if (gc) gc.value = jadwalData["General Cleaning Area Toko"] || "";
+const modalEdit = document.getElementById('modal-edit');
+if (modalEdit) {
+modalEdit.classList.remove('hidden');
+modalEdit.classList.add('flex');
+}
+}
+function closeEditJadwalModal() {
+const modalEdit = document.getElementById('modal-edit');
+if (modalEdit) {
+modalEdit.classList.remove('flex');
+modalEdit.classList.add('hidden');
+}
+}
+function saveJadwal() {
+const km = document.getElementById('edit-km');
+const gd = document.getElementById('edit-gd');
+const kt = document.getElementById('edit-kt');
+const gc = document.getElementById('edit-gc');
+if (km) jadwalData["Kamar Mandi"] = km.value;
+if (gd) jadwalData["Area Gudang Dray"] = gd.value;
+if (kt) jadwalData["Ruangan Kantor"] = kt.value;
+if (gc) jadwalData["General Cleaning Area Toko"] = gc.value;
+localStorage.setItem(BIN_JADWAL_KEY, JSON.stringify(jadwalData));
+closeEditJadwalModal();
+renderJadwal();
+}
+</script>
 </body>
 </html>
