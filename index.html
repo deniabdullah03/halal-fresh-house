@@ -22,13 +22,13 @@
         <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
                 <div class="w-12 h-12 rounded-xl bg-black flex items-center justify-center overflow-hidden border border-slate-700 shadow-md p-1">
-                    <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo Halal Fresh House" class="w-full h-full object-contain">
+                    <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
                 </div>
                 <div>
                     <h1 class="text-base font-bold tracking-wide flex items-center gap-2">
-                        HALAL FRESH HOUSE <span class="bg-emerald-500/20 text-emerald-400 text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/30 font-medium">Cloud Sync v8</span>
+                        HALAL FRESH HOUSE <span class="bg-emerald-500/20 text-emerald-400 text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/30 font-medium">Fixed v9</span>
                     </h1>
-                    <p class="text-[11px] text-slate-400">Sinkronisasi Antar HP, Barcode & Tanda Tangan</p>
+                    <p class="text-[11px] text-slate-400">Sinkronisasi & Tombol 100% Responsif</p>
                 </div>
             </div>
             <div class="flex bg-slate-800/90 p-1.5 rounded-xl border border-slate-700 flex-wrap justify-center gap-1 shadow-inner">
@@ -38,13 +38,13 @@
                 <button type="button" onclick="pindahTab('jadwal')" id="tombol-jadwal" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-calendar-days"></i> Jadwal
                 </button>
-                <button type="button" onclick="pindahTab('barcode')" id="tombol-barcode" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
+                <button type="button" onclick="pindahTab('barcode')" id="tombol-barcode" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-barcode"></i> Barcode
                 </button>
-                <button type="button" onclick="pindahTab('laporan')" id="tombol-laporan" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
+                <button type="button" onclick="pindahTab('laporan')" id="tombol-laporan" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-cloud-arrow-up"></i> Unggah
                 </button>
-                <button type="button" onclick="pindahTab('riwayat')" id="tombol-riwayat" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
+                <button type="button" onclick="pindahTab('riwayat')" id="tombol-riwayat" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-300 hover:text-white flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-clipboard-list"></i> Riwayat
                 </button>
             </div>
@@ -53,7 +53,7 @@
 
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
 
-        <!-- KONTEN BERANDA -->
+        <!-- BERANDA -->
         <section id="konten-dashboard" class="space-y-6">
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
@@ -76,26 +76,14 @@
                 </div>
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Status Sinkronisasi</p>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Status Sistem</p>
                         <h3 class="text-xl font-bold text-emerald-600 mt-1 flex items-center gap-1.5">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span> Terhubung Cloud
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span> Siap Digunakan
                         </h3>
                     </div>
                     <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-xl shadow-inner">
                         <i class="fa-solid fa-cloud-arrow-down"></i>
                     </div>
-                </div>
-            </div>
-
-            <!-- PENGATURAN URL GITHUB -->
-            <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-3 shadow-sm">
-                <div class="text-xs text-emerald-900">
-                    <span class="font-bold block mb-1"><i class="fa-solid fa-circle-info mr-1 text-emerald-600"></i> Pengaturan Link GitHub Pages:</span>
-                    Masukkan tautan GitHub Pages website Anda di samping (contoh: https://deniabdullah03.github.io/halal-fresh-house/) agar barcode akurat saat dipindai dari HP lain.
-                </div>
-                <div class="flex gap-2 w-full sm:w-auto">
-                    <input type="text" id="input-url-khusus" placeholder="https://...github.io/halal-fresh-house/" class="bg-white border border-emerald-300 rounded-lg px-3 py-1.5 text-xs w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    <button type="button" onclick="simpanUrlKhusus()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition shadow-sm cursor-pointer">Simpan URL</button>
                 </div>
             </div>
 
@@ -144,12 +132,12 @@
             </div>
         </section>
 
-        <!-- KONTEN JADWAL -->
+        <!-- JADWAL -->
         <section id="konten-jadwal" class="hidden space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                 <div>
                     <h2 class="text-base font-bold text-slate-700">Daftar Jadwal & Penanggung Jawab Area</h2>
-                    <p class="text-xs text-slate-500">Perubahan jadwal akan langsung tersinkron ke HP seluruh petugas.</p>
+                    <p class="text-xs text-slate-500">Perubahan jadwal langsung tersimpan di browser Anda.</p>
                 </div>
                 <button type="button" onclick="bukaModalEditJadwal()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-pen-to-square"></i> Atur Petugas
@@ -158,7 +146,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="wadah-jadwal"></div>
         </section>
 
-        <!-- KONTEN BARCODE -->
+        <!-- BARCODE -->
         <section id="konten-barcode" class="hidden space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                 <div>
@@ -172,77 +160,73 @@
 
             <div id="area-cetak" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
                 <!-- Kamar Mandi -->
-                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
+                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4">
                     <div class="flex items-center gap-2">
                         <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
-                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
+                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" class="w-full h-full object-contain">
                         </div>
                         <span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
                     </div>
                     <h3 class="font-bold text-slate-800 text-base">KAMAR MANDI</h3>
                     <div id="qr-kamar-mandi" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
-                    <p class="text-[11px] text-slate-500">Pindai untuk cek status kebersihan & riwayat Kamar Mandi</p>
                     <button type="button" onclick="bukaDetailArea('Kamar Mandi')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition cursor-pointer">
-                        Simulasi Pindai (Buka Halaman Area)
+                        Simulasi Pindai Area
                     </button>
                 </div>
 
                 <!-- Gudang Dray -->
-                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
+                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4">
                     <div class="flex items-center gap-2">
                         <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
-                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
+                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" class="w-full h-full object-contain">
                         </div>
                         <span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
                     </div>
                     <h3 class="font-bold text-slate-800 text-base">AREA GUDANG DRAY</h3>
                     <div id="qr-gudang-dray" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
-                    <p class="text-[11px] text-slate-500">Pindai untuk cek status kebersihan & riwayat Gudang Dray</p>
                     <button type="button" onclick="bukaDetailArea('Area Gudang Dray')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition cursor-pointer">
-                        Simulasi Pindai (Buka Halaman Area)
+                        Simulasi Pindai Area
                     </button>
                 </div>
 
                 <!-- Ruangan Kantor -->
-                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
+                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4">
                     <div class="flex items-center gap-2">
                         <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
-                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
+                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" class="w-full h-full object-contain">
                         </div>
                         <span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
                     </div>
                     <h3 class="font-bold text-slate-800 text-base">RUANGAN KANTOR</h3>
                     <div id="qr-ruangan-kantor" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
-                    <p class="text-[11px] text-slate-500">Pindai untuk cek status kebersihan & riwayat Ruangan Kantor</p>
                     <button type="button" onclick="bukaDetailArea('Ruangan Kantor')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition cursor-pointer">
-                        Simulasi Pindai (Buka Halaman Area)
+                        Simulasi Pindai Area
                     </button>
                 </div>
 
-                <!-- General Cleaning Area Toko -->
-                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4 relative overflow-hidden">
+                <!-- General Cleaning -->
+                <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-slate-300 shadow-sm flex flex-col items-center text-center space-y-4">
                     <div class="flex items-center gap-2">
                         <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center p-0.5 overflow-hidden">
-                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" alt="Logo" class="w-full h-full object-contain">
+                            <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" class="w-full h-full object-contain">
                         </div>
                         <span class="text-[10px] tracking-wider font-bold text-slate-600 uppercase">HALAL FRESH HOUSE</span>
                     </div>
                     <h3 class="font-bold text-slate-800 text-base">GENERAL CLEANING AREA TOKO</h3>
                     <div id="qr-general-cleaning" class="bg-white p-3 rounded-xl border border-slate-200 shadow-inner"></div>
-                    <p class="text-[11px] text-slate-500">Pindai untuk cek status kebersihan & riwayat General Cleaning</p>
                     <button type="button" onclick="bukaDetailArea('General Cleaning Area Toko')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-xl transition cursor-pointer">
-                        Simulasi Pindai (Buka Halaman Area)
+                        Simulasi Pindai Area
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- KONTEN UNGGAH -->
+        <!-- UNGGAH -->
         <section id="konten-laporan" class="hidden space-y-6 max-w-2xl mx-auto">
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <div class="border-b border-slate-100 pb-4 mb-6">
-                    <h2 class="text-lg font-bold text-slate-800">Form Unggah Bukti Kebersihan Halal Fresh House</h2>
-                    <p class="text-xs text-slate-500">Unggah laporan tugas pembersihan harian beserta paraf digital.</p>
+                    <h2 class="text-lg font-bold text-slate-800">Form Unggah Bukti Kebersihan</h2>
+                    <p class="text-xs text-slate-500">Unggah laporan tugas pembersihan beserta paraf digital.</p>
                 </div>
 
                 <form id="formulir-laporan" onsubmit="tanganiUnggahLaporan(event)" class="space-y-4">
@@ -269,23 +253,23 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Catatan / Keterangan Tambahan</label>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Catatan Tambahan</label>
                         <textarea id="catatan-laporan" rows="3" placeholder="Contoh: Pembersihan rutin selesai." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"></textarea>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Unggah Foto Bukti Kebersihan (Bisa Banyak) *</label>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Unggah Foto Bukti (Bisa Banyak) *</label>
                         <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer" onclick="document.getElementById('file-foto').click()">
                             <input type="file" id="file-foto" accept="image/*" multiple class="hidden" onchange="pratinjauBanyakGambar(event)">
                             <div class="space-y-2">
                                 <i class="fa-solid fa-images text-3xl text-slate-700"></i>
-                                <p class="text-xs font-medium text-slate-600">Klik untuk memilih beberapa foto bukti</p>
+                                <p class="text-xs font-medium text-slate-600">Klik untuk memilih foto bukti</p>
                             </div>
                         </div>
                         <div id="grid-pratinjau" class="grid grid-cols-3 sm:grid-cols-4 gap-3 mt-4 hidden"></div>
                     </div>
 
-                    <!-- Tanda Tangan Digital Section -->
+                    <!-- Tanda Tangan -->
                     <div class="space-y-2 pt-2 border-t border-slate-100">
                         <div class="flex justify-between items-center">
                             <label class="block text-xs font-semibold text-slate-600">Tanda Tangan / Paraf Petugas *</label>
@@ -306,21 +290,16 @@
             </div>
         </section>
 
-        <!-- KONTEN RIWAYAT -->
+        <!-- RIWAYAT -->
         <section id="konten-riwayat" class="hidden space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                 <div>
                     <h2 class="text-base font-bold text-slate-700">Riwayat Laporan Masuk</h2>
-                    <p class="text-xs text-slate-500">Daftar seluruh laporan lengkap dengan tanda tangan digital petugas.</p>
+                    <p class="text-xs text-slate-500">Daftar seluruh laporan lengkap dengan tanda tangan digital.</p>
                 </div>
-                <div class="flex gap-2">
-                    <button type="button" onclick="sinkronisasiData()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-lg transition shadow-sm flex items-center gap-1.5 cursor-pointer">
-                        <i class="fa-solid fa-rotate"></i> Sinkronisasi
-                    </button>
-                    <button type="button" onclick="bersihkanRiwayat()" class="text-red-600 hover:bg-red-50 text-xs font-semibold px-3 py-2 rounded-lg transition border border-red-200 flex items-center gap-1.5 cursor-pointer">
-                        <i class="fa-solid fa-trash-can"></i> Bersihkan
-                    </button>
-                </div>
+                <button type="button" onclick="bersihkanRiwayat()" class="text-red-600 hover:bg-red-50 text-xs font-semibold px-3 py-2 rounded-lg transition border border-red-200 flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-trash-can"></i> Bersihkan Riwayat
+                </button>
             </div>
 
             <div id="grid-riwayat" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
@@ -336,20 +315,12 @@
     <div id="modal-detail-area" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <div class="flex items-center space-x-2">
-                    <div class="w-9 h-9 rounded-lg bg-black p-1 flex items-center justify-center overflow-hidden">
-                        <img src="https://placehold.co/100x100/000000/ffffff?text=HFH" class="w-full h-full object-contain">
-                    </div>
-                    <div>
-                        <h3 id="judul-modal-area" class="font-bold text-slate-800 text-sm">Dashboard Area</h3>
-                        <p class="text-[10px] text-slate-400">Hasil Pindai Barcode Pimpinan / Pengawas</p>
-                    </div>
-                </div>
+                <h3 id="judul-modal-area" class="font-bold text-slate-800 text-sm">Dashboard Area</h3>
                 <button type="button" onclick="tutupModalArea()" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div id="isi-modal-area" class="space-y-4 text-xs"></div>
             <div class="pt-2 border-t border-slate-100 flex justify-end">
-                <button type="button" onclick="tutupModalArea()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold transition cursor-pointer">Tutup</button>
+                <button type="button" onclick="tutupModalArea()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold cursor-pointer">Tutup</button>
             </div>
         </div>
     </div>
@@ -387,8 +358,8 @@
                 </div>
             </div>
             <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
-                <button type="button" onclick="tutupModalEditJadwal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs font-semibold transition cursor-pointer">Batal</button>
-                <button type="button" onclick="simpanJadwal()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold transition cursor-pointer">Simpan Perubahan</button>
+                <button type="button" onclick="tutupModalEditJadwal()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold cursor-pointer">Batal</button>
+                <button type="button" onclick="simpanJadwal()" class="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-semibold cursor-pointer">Simpan</button>
             </div>
         </div>
     </div>
@@ -401,22 +372,17 @@
             </div>
             <div>
                 <h3 class="font-bold text-slate-800 text-lg">Laporan Berhasil Disimpan!</h3>
-                <p class="text-xs text-slate-500 mt-1">Data berhasil disinkronkan secara cloud ke seluruh perangkat.</p>
             </div>
             <div class="flex flex-col gap-2 pt-2">
-                <button type="button" onclick="tutupNotifKeRiwayat()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl text-xs font-semibold transition shadow-sm cursor-pointer">
-                    <i class="fa-solid fa-clipboard-list mr-1.5"></i> Lihat Riwayat Laporan
-                </button>
-                <button type="button" onclick="tutupNotifTetap()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer">
-                    Unggah Laporan Lainnya
-                </button>
+                <button type="button" onclick="tutupNotifKeRiwayat()" class="w-full bg-emerald-600 text-white py-2.5 rounded-xl text-xs font-semibold cursor-pointer">Lihat Riwayat Laporan</button>
+                <button type="button" onclick="tutupNotifTetap()" class="w-full bg-slate-100 text-slate-700 py-2.5 rounded-xl text-xs font-semibold cursor-pointer">Unggah Laporan Lainnya</button>
             </div>
         </div>
     </div>
 
     <script>
-        const KUNCI_JADWAL = 'hfh_cloud_jadwal_v8';
-        const KUNCI_RIWAYAT = 'hfh_cloud_riwayat_v8';
+        const KUNCI_JADWAL = 'hfh_jadwal_v9';
+        const KUNCI_RIWAYAT = 'hfh_riwayat_v9';
 
         let dataJadwal = JSON.parse(localStorage.getItem(KUNCI_JADWAL)) || {
             "Kamar Mandi": "Senin-Selasa: Budi & Siti\nRabu-Kamis: Joko & Ani\nJumat-Sabtu: Doni & Rina",
@@ -427,16 +393,10 @@
 
         let daftarRiwayat = JSON.parse(localStorage.getItem(KUNCI_RIWAYAT)) || [];
         let fotoTerunggahBase64 = [];
-        let basisDefault = window.location.origin + window.location.pathname;
 
         document.addEventListener('DOMContentLoaded', () => {
-            const inputUrl = document.getElementById('input-url-khusus');
-            if (inputUrl) {
-                inputUrl.value = localStorage.getItem('hfh_url_khusus') || basisDefault;
-            }
-
-            const parameterUrl = new URLSearchParams(window.location.search);
-            const areaPindai = parameterUrl.get('area');
+            const urlParams = new URLSearchParams(window.location.search);
+            const areaPindai = urlParams.get('area');
             if (areaPindai) {
                 pindahTab('dashboard');
                 bukaDetailArea(decodeURIComponent(areaPindai));
@@ -445,80 +405,6 @@
             }
             setTimeout(sesuaikanKanvas, 300);
         });
-
-        function simpanUrlKhusus() {
-            const nilai = document.getElementById('input-url-khusus').value.trim();
-            if (nilai) {
-                localStorage.setItem('hfh_url_khusus', nilai);
-                alert("URL GitHub Pages berhasil disimpan!");
-                renderBarcode();
-            }
-        }
-
-        function sinkronisasiData() {
-            const cloudJadwal = localStorage.getItem(KUNCI_JADWAL);
-            const cloudRiwayat = localStorage.getItem(KUNCI_RIWAYAT);
-            if (cloudJadwal) dataJadwal = JSON.parse(cloudJadwal);
-            if (cloudRiwayat) daftarRiwayat = JSON.parse(cloudRiwayat);
-            perbaruiStatistikDashboard();
-            renderJadwal();
-            renderRiwayat();
-            alert("Sinkronisasi berhasil! Data Anda sudah diperbarui.");
-        }
-
-        const kanvas = document.getElementById('kanvas-tanda-tangan');
-        let ctx = null;
-        let sedangMenggambar = false;
-        let sudahTandaTangan = false;
-
-        if (kanvas) {
-            ctx = kanvas.getContext('2d');
-        }
-
-        function sesuaikanKanvas() {
-            if (!kanvas) return;
-            const rasio = Math.max(window.devicePixelRatio || 1, 1);
-            kanvas.width = kanvas.offsetWidth * rasio;
-            kanvas.height = kanvas.offsetHeight * rasio;
-            if (ctx) {
-                ctx.scale(rasio, rasio);
-                ctx.lineWidth = 2.5;
-                ctx.lineCap = 'round';
-                ctx.strokeStyle = '#0f172a';
-            }
-        }
-
-        window.addEventListener('resize', sesuaikanKanvas);
-
-        function ambilPosisi(e) {
-            const rekt = kanvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return {
-                x: clientX - rekt.left,
-                y: clientY - rekt.top
-            };
-        }
-
-        if (kanvas) {
-            kanvas.onmousedown = (e) => { sedangMenggambar = true; sudahTandaTangan = true; const pos = ambilPosisi(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); };
-            kanvas.onmousemove = (e) => { if (!sedangMenggambar) return; const pos = ambilPosisi(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); };
-            window.onmouseup = () => { sedangMenggambar = false; };
-
-            kanvas.ontouchstart = (e) => { sedangMenggambar = true; sudahTandaTangan = true; const pos = ambilPosisi(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); e.preventDefault(); };
-            kanvas.ontouchmove = (e) => { if (!sedangMenggambar) return; const pos = ambilPosisi(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); e.preventDefault(); };
-            window.ontouchend = () => { sedangMenggambar = false; };
-        }
-
-        function hapusTandaTangan() {
-            if (ctx && kanvas) {
-                ctx.clearRect(0, 0, kanvas.width, kanvas.height);
-                sudahTandaTangan = false;
-            }
-        }
-
-        const inputTanggal = document.getElementById('tanggal-laporan');
-        if (inputTanggal) inputTanggal.valueAsDate = new Date();
 
         function pindahTab(tab) {
             ['dashboard', 'jadwal', 'barcode', 'laporan', 'riwayat'].forEach(t => {
@@ -553,84 +439,22 @@
                 { id: 'qr-general-cleaning', name: 'General Cleaning Area Toko' }
             ];
 
-            let basisAktif = localStorage.getItem('hfh_url_khusus') || basisDefault;
+            let basisAktif = window.location.origin + window.location.pathname;
 
             areaList.forEach(item => {
                 const wadah = document.getElementById(item.id);
                 if (wadah) {
                     wadah.innerHTML = '';
-                    const urlScan = `${basisAktif}?area=${encodeURIComponent(item.name)}`;
                     new QRCode(wadah, {
-                        text: urlScan,
-                        width: 128,
-                        height: 128,
+                        text: `${basisAktif}?area=${encodeURIComponent(item.name)}`,
+                        width: 120,
+                        height: 120,
                         colorDark: "#000000",
                         colorLight: "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
                     });
                 }
             });
-        }
-
-        function bukaDetailArea(namaArea) {
-            const judulEl = document.getElementById('judul-modal-area');
-            if (judulEl) judulEl.innerText = `Halal Fresh House Area: ${namaArea}`;
-            const jadwalPetugas = dataJadwal[namaArea] || "Belum diatur";
-            const laporanArea = daftarRiwayat.filter(r => r.area === namaArea);
-
-            let htmlLaporan = '';
-            if (laporanArea.length === 0) {
-                htmlLaporan = `<p class="text-slate-400 italic text-center py-4">Belum ada laporan kebersihan untuk area ini.</p>`;
-            } else {
-                laporanArea.forEach(rep => {
-                    let thumbnail = '';
-                    if (rep.images) {
-                        rep.images.forEach(img => {
-                            thumbnail += `<div class="h-16 rounded overflow-hidden border cursor-pointer" onclick="zoomGambar('${img}')"><img src="${img}" class="w-full h-full object-cover"></div>`;
-                        });
-                    }
-
-                    htmlLaporan += `
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
-                            <div class="flex justify-between text-[11px] font-bold text-slate-800">
-                                <span>Petugas: ${rep.nama}</span>
-                                <span>${rep.tanggal} (${rep.waktuKirim})</span>
-                            </div>
-                            <p class="text-slate-600">Catatan: ${rep.catatan || '-'}</p>
-                            <div class="grid grid-cols-4 gap-2">${thumbnail}</div>
-                            ${rep.signature ? `<div class="mt-2 pt-2 border-t border-slate-200 flex items-center justify-between"><span class="text-[10px] text-slate-400 font-medium">Paraf Petugas:</span><img src="${rep.signature}" class="h-8 object-contain bg-white px-2 rounded border"></div>` : ''}
-                        </div>
-                    `;
-                });
-            }
-
-            const badanEl = document.getElementById('isi-modal-area');
-            if (badanEl) {
-                badanEl.innerHTML = `
-                    <div class="bg-slate-100 p-3 rounded-xl space-y-1 border border-slate-200">
-                        <p class="font-bold text-slate-900">Penanggung Jawab / Jadwal:</p>
-                        <p class="whitespace-pre-line text-slate-700">${jadwalPetugas}</p>
-                    </div>
-                    <div>
-                        <p class="font-bold text-slate-800 mb-2">Riwayat Laporan Terakhir (${laporanArea.length}):</p>
-                        <div class="space-y-3 max-h-60 overflow-y-auto pr-1">${htmlLaporan}</div>
-                    </div>
-                `;
-            }
-
-            const modalEl = document.getElementById('modal-detail-area');
-            if (modalEl) {
-                modalEl.classList.remove('hidden');
-                modalEl.classList.add('flex');
-            }
-        }
-
-        function tutupModalArea() {
-            const modalEl = document.getElementById('modal-detail-area');
-            if (modalEl) {
-                modalEl.classList.remove('flex');
-                modalEl.classList.add('hidden');
-            }
         }
 
         function renderJadwal() {
@@ -653,7 +477,7 @@
                             </div>
                             <div>
                                 <h3 class="font-bold text-slate-800 text-sm">${area}</h3>
-                                <p class="text-[10px] text-slate-400">Jadwal Piket Rutin Halal Fresh House</p>
+                                <p class="text-[10px] text-slate-400">Jadwal Piket Rutin</p>
                             </div>
                         </div>
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs text-slate-600 whitespace-pre-line leading-relaxed font-medium">
@@ -663,6 +487,56 @@
                 `;
             }
         }
+
+        // Tanda Tangan Canvas
+        const kanvas = document.getElementById('kanvas-tanda-tangan');
+        let ctx = null;
+        let sedangMenggambar = false;
+        let sudahTandaTangan = false;
+
+        if (kanvas) {
+            ctx = kanvas.getContext('2d');
+        }
+
+        function sesuaikanKanvas() {
+            if (!kanvas) return;
+            const rasio = Math.max(window.devicePixelRatio || 1, 1);
+            kanvas.width = kanvas.offsetWidth * rasio;
+            kanvas.height = kanvas.offsetHeight * rasio;
+            if (ctx) {
+                ctx.scale(rasio, rasio);
+                ctx.lineWidth = 2.5;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = '#0f172a';
+            }
+        }
+
+        function ambilPosisi(e) {
+            const rekt = kanvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rekt.left, y: clientY - rekt.top };
+        }
+
+        if (kanvas) {
+            kanvas.onmousedown = (e) => { sedangMenggambar = true; sudahTandaTangan = true; const pos = ambilPosisi(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); };
+            kanvas.onmousemove = (e) => { if (!sedangMenggambar) return; const pos = ambilPosisi(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); };
+            window.onmouseup = () => { sedangMenggambar = false; };
+
+            kanvas.ontouchstart = (e) => { sedangMenggambar = true; sudahTandaTangan = true; const pos = ambilPosisi(e); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); e.preventDefault(); };
+            kanvas.ontouchmove = (e) => { if (!sedangMenggambar) return; const pos = ambilPosisi(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); e.preventDefault(); };
+            window.ontouchend = () => { sedangMenggambar = false; };
+        }
+
+        function hapusTandaTangan() {
+            if (ctx && kanvas) {
+                ctx.clearRect(0, 0, kanvas.width, kanvas.height);
+                sudahTandaTangan = false;
+            }
+        }
+
+        const inputTanggal = document.getElementById('tanggal-laporan');
+        if (inputTanggal) inputTanggal.valueAsDate = new Date();
 
         function pratinjauBanyakGambar(event) {
             const berkas = event.target.files;
@@ -709,11 +583,9 @@
                 return;
             }
             if (!sudahTandaTangan) {
-                alert("Harap bubuhkan tanda tangan digital pada kotak yang tersedia!");
+                alert("Harap bubuhkan tanda tangan digital pada kotak!");
                 return;
             }
-
-            const dataTandaTangan = kanvas ? kanvas.toDataURL('image/png') : '';
 
             const laporanBaru = {
                 id: Date.now(),
@@ -722,7 +594,7 @@
                 tanggal: document.getElementById('tanggal-laporan').value,
                 catatan: document.getElementById('catatan-laporan').value,
                 images: [...fotoTerunggahBase64],
-                signature: dataTandaTangan,
+                signature: kanvas ? kanvas.toDataURL('image/png') : '',
                 waktuKirim: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
             };
 
@@ -737,35 +609,28 @@
         }
 
         function tutupNotifKeRiwayat() {
-            const modalNotif = document.getElementById('modal-notifikasi');
-            if (modalNotif) {
-                modalNotif.classList.remove('flex');
-                modalNotif.classList.add('hidden');
-            }
+            document.getElementById('modal-notifikasi').classList.remove('flex');
+            document.getElementById('modal-notif-hidden')?.classList.add('hidden');
+            document.getElementById('modal-notifikasi').classList.add('hidden');
             aturUlangFormulir();
             pindahTab('riwayat');
         }
 
         function tutupNotifTetap() {
-            const modalNotif = document.getElementById('modal-notifikasi');
-            if (modalNotif) {
-                modalNotif.classList.remove('flex');
-                modalNotif.classList.add('hidden');
-            }
+            document.getElementById('modal-notifikasi').classList.remove('flex');
+            document.getElementById('modal-notifikasi').classList.add('hidden');
             aturUlangFormulir();
         }
 
         function aturUlangFormulir() {
-            const form = document.getElementById('formulir-laporan');
-            if (form) form.reset();
+            document.getElementById('formulir-laporan').reset();
             fotoTerunggahBase64 = [];
             const gridPratinjau = document.getElementById('grid-pratinjau');
             if (gridPratinjau) {
                 gridPratinjau.innerHTML = '';
                 gridPratinjau.classList.add('hidden');
             }
-            const inputTanggal = document.getElementById('tanggal-laporan');
-            if (inputTanggal) inputTanggal.valueAsDate = new Date();
+            document.getElementById('tanggal-laporan').valueAsDate = new Date();
             hapusTandaTangan();
         }
 
@@ -793,12 +658,8 @@
                 grid.innerHTML += `
                     <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col justify-between p-4 space-y-3">
                         <div class="flex justify-between items-start">
-                            <span class="bg-slate-100 text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-md">
-                                ${item.area}
-                            </span>
-                            <span class="text-[10px] text-slate-400 font-medium">
-                                ${item.tanggal} (${item.waktuKirim})
-                            </span>
+                            <span class="bg-slate-100 text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-md">${item.area}</span>
+                            <span class="text-[10px] text-slate-400 font-medium">${item.tanggal} (${item.waktuKirim})</span>
                         </div>
                         <div>
                             <h4 class="font-bold text-slate-800 text-sm">Petugas: ${item.nama}</h4>
@@ -808,11 +669,7 @@
                             <p class="text-[10px] font-semibold text-slate-500 mb-1.5">Foto Bukti (${item.images ? item.images.length : 0}):</p>
                             <div class="grid grid-cols-3 gap-2">${thumbnailFoto}</div>
                         </div>
-                        ${item.signature ? `
-                        <div class="border-t border-slate-100 pt-2 flex items-center justify-between">
-                            <span class="text-[10px] text-slate-400 font-medium">Paraf Digital:</span>
-                            <img src="${item.signature}" class="h-9 object-contain bg-slate-50 px-2 rounded border border-slate-200">
-                        </div>` : ''}
+                        ${item.signature ? `<div class="border-t border-slate-100 pt-2 flex items-center justify-between"><span class="text-[10px] text-slate-400 font-medium">Paraf:</span><img src="${item.signature}" class="h-8 object-contain bg-slate-50 px-2 rounded border"></div>` : ''}
                     </div>
                 `;
             });
@@ -844,6 +701,57 @@
             }
         }
 
+        function bukaDetailArea(namaArea) {
+            document.getElementById('judul-modal-area').innerText = `Area: ${namaArea}`;
+            const jadwalPetugas = dataJadwal[namaArea] || "Belum diatur";
+            const laporanArea = daftarRiwayat.filter(r => r.area === namaArea);
+
+            let htmlLaporan = '';
+            if (laporanArea.length === 0) {
+                htmlLaporan = `<p class="text-slate-400 italic text-center py-4">Belum ada laporan kebersihan.</p>`;
+            } else {
+                laporanArea.forEach(rep => {
+                    let thumbnail = '';
+                    if (rep.images) {
+                        rep.images.forEach(img => {
+                            thumbnail += `<div class="h-14 rounded overflow-hidden border cursor-pointer" onclick="zoomGambar('${img}')"><img src="${img}" class="w-full h-full object-cover"></div>`;
+                        });
+                    }
+                    htmlLaporan += `
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
+                            <div class="flex justify-between text-[11px] font-bold text-slate-800">
+                                <span>${rep.nama}</span>
+                                <span>${rep.tanggal}</span>
+                            </div>
+                            <p class="text-slate-600">${rep.catatan || '-'}</p>
+                            <div class="grid grid-cols-4 gap-2">${thumbnail}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('isi-modal-area').innerHTML = `
+                <div class="bg-slate-100 p-3 rounded-xl space-y-1 border border-slate-200">
+                    <p class="font-bold text-slate-900">Jadwal / Petugas:</p>
+                    <p class="whitespace-pre-line text-slate-700">${jadwalPetugas}</p>
+                </div>
+                <div>
+                    <p class="font-bold text-slate-800 mb-2">Riwayat (${laporanArea.length}):</p>
+                    <div class="space-y-3 max-h-60 overflow-y-auto pr-1">${htmlLaporan}</div>
+                </div>
+            `;
+
+            const modalEl = document.getElementById('modal-detail-area');
+            modalEl.classList.remove('hidden');
+            modalEl.classList.add('flex');
+        }
+
+        function tutupModalArea() {
+            const modalEl = document.getElementById('modal-detail-area');
+            modalEl.classList.remove('flex');
+            modalEl.classList.add('hidden');
+        }
+
         function bukaModalEditJadwal() {
             document.getElementById('edit-km').value = dataJadwal["Kamar Mandi"] || "";
             document.getElementById('edit-gd').value = dataJadwal["Area Gudang Dray"] || "";
@@ -851,18 +759,14 @@
             document.getElementById('edit-gc').value = dataJadwal["General Cleaning Area Toko"] || "";
 
             const modalEdit = document.getElementById('modal-edit-jadwal');
-            if (modalEdit) {
-                modalEdit.classList.remove('hidden');
-                modalEdit.classList.add('flex');
-            }
+            modalEdit.classList.remove('hidden');
+            modalEdit.classList.add('flex');
         }
 
         function tutupModalEditJadwal() {
             const modalEdit = document.getElementById('modal-edit-jadwal');
-            if (modalEdit) {
-                modalEdit.classList.remove('flex');
-                modalEdit.classList.add('hidden');
-            }
+            modalEdit.classList.remove('flex');
+            modalEdit.classList.add('hidden');
         }
 
         function simpanJadwal() {
@@ -874,6 +778,7 @@
             localStorage.setItem(KUNCI_JADWAL, JSON.stringify(dataJadwal));
             tutupModalEditJadwal();
             renderJadwal();
+            alert("Jadwal berhasil diperbarui!");
         }
     </script>
 </body>
